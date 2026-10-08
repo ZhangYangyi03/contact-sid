@@ -117,11 +117,11 @@ out to be measuring the wrong axis.
     python -m csid all               everything, written to bench/results.json
     python -m unittest discover -s tests
 
-45 tests. They fall into three groups and none of them is a re-run of the study: tests
+48 tests. They fall into three groups and none of them is a re-run of the study: tests
 that pin a *convention* which would otherwise be silently wrong (the DH table, the
 parquet column order, the orientation of the design matrix), tests of a mechanism on
 synthetic data whose answer is known independently (a known 4 kg mass recovered, a
-known sparse system recovered), and regression tests for the five real bugs this code
+known sparse system recovered), and regression tests for the six real bugs this code
 had, each of which produced a plausible number rather than an error:
 
   - a Savitzky-Golay kernel built from the wrong normal equations, which smoothed
@@ -135,8 +135,11 @@ had, each of which produced a plausible number rather than an error:
   - an inertness probe comparing `q - span` against `q + span`, which cancels for any
     joint whose effect is even about the recorded configuration and declared a
     perfectly good wrist joint structurally unable to excite gravity
+  - a degenerate recording (the gravity column exactly constant) that produced a `nan`
+    recommendation, because a zero joint range times an infinite factor is `nan` -- found
+    by CI on Python 3.10 and reproduced by neither 3.12 nor this host
 
-The last one is the most instructive: it produced a confident, specific, wrong answer
+The inertness probe is the most instructive: it produced a confident, specific, wrong answer
 about the machine, and it was caught only by a test that asserted a joint *can* work
 rather than that a joint *cannot*.
 

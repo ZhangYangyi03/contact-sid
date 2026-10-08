@@ -177,7 +177,7 @@ headline claim has drifted. CI runs the unit tests on six Python/OS combinations
 installs the built wheel into an empty virtual environment. The data are staged in
 `data/ur5/` with per-file SHA-256 in `data/ur5/PROVENANCE.md`.
 
-The five bugs found while building this are each reproduced by a named test, and one of
+The six bugs found while building this are each reproduced by a named test, and one of
 them is worth singling out here because it is a measurement error rather than a coding
 error: the first version of the joint-inertness probe compared `q - span` against
 `q + span`, which cancels for any joint whose effect on the gravity column is even about
