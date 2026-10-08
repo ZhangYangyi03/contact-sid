@@ -404,8 +404,15 @@ class TestIdentifiability(unittest.TestCase):
         self.assertAlmostEqual(a["conditioning_factor_needed"],
                                b["conditioning_factor_needed"], places=3)
         self.assertGreaterEqual(a["excitation_factor_needed"], 1.0)
-        self.assertGreaterEqual(a["excitation_factor_needed"],
-                                a["conditioning_factor_needed"] ** 0.5 - 1e-6)
+        # the two factors are the same quantity twice: the second is the square root of
+        # the first, both rounded for publication. Compared with a relative tolerance,
+        # because these numbers run to 1e7 on a stiff recording and an absolute tolerance
+        # there is smaller than the rounding it is meant to absorb -- which is how this
+        # assertion failed on Python 3.10 before it was rewritten.
+        self.assertAlmostEqual(
+            a["excitation_factor_needed"],
+            a["conditioning_factor_needed"] ** 0.5,
+            delta=0.05 * a["excitation_factor_needed"])
         self.assertNotIn(1, a["excitable_joints"])
 
     def test_a_widely_reorienting_tool_asks_for_less_motion_than_a_stiff_one(self):
