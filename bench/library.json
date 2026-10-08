@@ -1,0 +1,145 @@
+{
+ "smooth": {
+  "library": "smooth",
+  "lambda": 0.05,
+  "n_terms": 97,
+  "regimes": {
+   "free_max_N": 30.705,
+   "contact_min_N": 37.164,
+   "n_free": 1201,
+   "n_contact": 241
+  },
+  "fits": {
+   "train_free__test_free": {
+    "nonzero": 582,
+    "r2_mean": 0.5462,
+    "r2_per_axis": [
+     0.636,
+     0.4893,
+     0.8506,
+     0.3862,
+     0.5651,
+     0.35
+    ]
+   },
+   "train_free__test_contact": {
+    "nonzero": 582,
+    "r2_mean": -1198.8529,
+    "r2_per_axis": [
+     -239.1935,
+     -24.4075,
+     -97.5311,
+     -405.9606,
+     -6187.8428,
+     -238.1817
+    ]
+   },
+   "train_contact__test_free": {
+    "nonzero": 582,
+    "r2_mean": -830.0158,
+    "r2_per_axis": [
+     -135.8855,
+     -71.7973,
+     -246.4741,
+     -322.7918,
+     -1835.0033,
+     -2368.143
+    ]
+   },
+   "train_contact__test_contact": {
+    "nonzero": 582,
+    "r2_mean": 0.8591,
+    "r2_per_axis": [
+     0.9801,
+     0.9904,
+     0.9751,
+     0.8967,
+     0.6343,
+     0.6782
+    ]
+   }
+  },
+  "group_mass_all_data": {
+   "const": 547122.02771,
+   "q": 3110799.04176,
+   "dq": 541.8126,
+   "ddq": 640.54244,
+   "q*q": 1465505.43547,
+   "dq*dq": 11994.49148,
+   "q*dq": 2455985.04178
+  }
+ },
+ "nonsmooth": {
+  "library": "nonsmooth",
+  "lambda": 0.05,
+  "n_terms": 116,
+  "regimes": {
+   "free_max_N": 30.705,
+   "contact_min_N": 37.164,
+   "n_free": 1201,
+   "n_contact": 241
+  },
+  "fits": {
+   "train_free__test_free": {
+    "nonzero": 685,
+    "r2_mean": 0.5649,
+    "r2_per_axis": [
+     0.6515,
+     0.5189,
+     0.86,
+     0.4163,
+     0.5851,
+     0.3575
+    ]
+   },
+   "train_free__test_contact": {
+    "nonzero": 685,
+    "r2_mean": -1264.5818,
+    "r2_per_axis": [
+     -204.1633,
+     -33.2652,
+     -168.3924,
+     -550.4268,
+     -6451.7089,
+     -179.534
+    ]
+   },
+   "train_contact__test_free": {
+    "nonzero": 688,
+    "r2_mean": -1253.7269,
+    "r2_per_axis": [
+     -380.212,
+     -273.6258,
+     -1054.177,
+     -832.7661,
+     -1809.2007,
+     -3172.3801
+    ]
+   },
+   "train_contact__test_contact": {
+    "nonzero": 688,
+    "r2_mean": 0.8673,
+    "r2_per_axis": [
+     0.9814,
+     0.9915,
+     0.9817,
+     0.9062,
+     0.6546,
+     0.6881
+    ]
+   }
+  },
+  "group_mass_all_data": {
+   "const": 941880.4147,
+   "q": 4430420.47699,
+   "dq": 316.64087,
+   "ddq": 475.08299,
+   "q*q": 2252937.37106,
+   "dq*dq": 10357.30133,
+   "q*dq": 3696706.22026,
+   "sign(dq)": 30.43094,
+   "dq*|dq|": 376.68054,
+   "contact": 4.50698
+  }
+ }
+}

@@ -1,0 +1,154 @@
+{
+ "per_episode": [
+  {
+   "episode": 0,
+   "cond": 296857.9,
+   "gravity_spread_frac": 0.04893,
+   "identifiable": false,
+   "scalar_mass_kg": -3.465,
+   "scalar_mass_stderr_kg": 2.478,
+   "scalar_mass_t": -1.4,
+   "scalar_mass_identified": false,
+   "unrestricted_mass_kg": 3795.618,
+   "tcp_travel_m": [
+    0.0565,
+    0.0632,
+    0.195
+   ],
+   "tcp_radius_min_m": 0.5297,
+   "tcp_radius_max_m": 0.6245,
+   "within_kinematic_reach": true,
+   "within_working_envelope": true
+  },
+  {
+   "episode": 1,
+   "cond": 171875.0,
+   "gravity_spread_frac": 0.06197,
+   "identifiable": false,
+   "scalar_mass_kg": 43.043,
+   "scalar_mass_stderr_kg": 3.07,
+   "scalar_mass_t": 14.02,
+   "scalar_mass_identified": true,
+   "unrestricted_mass_kg": 7934.389,
+   "tcp_travel_m": [
+    0.1293,
+    0.0526,
+    0.1175
+   ],
+   "tcp_radius_min_m": 0.5894,
+   "tcp_radius_max_m": 0.7008,
+   "within_kinematic_reach": true,
+   "within_working_envelope": true
+  },
+  {
+   "episode": 2,
+   "cond": 1263761.0,
+   "gravity_spread_frac": 0.01559,
+   "identifiable": false,
+   "scalar_mass_kg": 257.601,
+   "scalar_mass_stderr_kg": 10.583,
+   "scalar_mass_t": 24.34,
+   "scalar_mass_identified": true,
+   "unrestricted_mass_kg": 41348.911,
+   "tcp_travel_m": [
+    0.1317,
+    0.0119,
+    0.0452
+   ],
+   "tcp_radius_min_m": 0.5749,
+   "tcp_radius_max_m": 0.7032,
+   "within_kinematic_reach": true,
+   "within_working_envelope": true
+  },
+  {
+   "episode": 3,
+   "cond": 94713.3,
+   "gravity_spread_frac": 0.04136,
+   "identifiable": false,
+   "scalar_mass_kg": 0.88,
+   "scalar_mass_stderr_kg": 0.881,
+   "scalar_mass_t": 1.0,
+   "scalar_mass_identified": false,
+   "unrestricted_mass_kg": 362.793,
+   "tcp_travel_m": [
+    0.1312,
+    0.1301,
+    0.1169
+   ],
+   "tcp_radius_min_m": 0.5549,
+   "tcp_radius_max_m": 0.7215,
+   "within_kinematic_reach": true,
+   "within_working_envelope": true
+  }
+ ],
+ "pooled": {
+  "n_samples": 2401,
+  "cond": 41574.3926,
+  "sigma_min": 0.0116,
+  "sigma_max": 483.0291,
+  "gravity_spread_ms2": [
+   0.5336,
+   0.7312,
+   0.119
+  ],
+  "gravity_spread_frac": 0.0745,
+  "identifiable": false
+ },
+ "pooled_scalar_mass": {
+  "mass_kg": 1.068,
+  "stderr_kg": 1.366,
+  "ci95_kg": [
+   -1.609,
+   3.744
+  ],
+  "t_stat": 0.78,
+  "identified": false,
+  "dof": 7199,
+  "gravity_excitation_sum_sq": 146.7553,
+  "r2_force": 0.0001,
+  "reason": "the mass is not distinguishable from zero: the tool's mass, the sensor bias and the contact offset are one lump in this recording"
+ },
+ "inert_joints": {
+  "structural": [
+   0,
+   4
+  ],
+  "situational": [],
+  "n_configurations_checked": 31
+ },
+ "excitation_required": {
+  "current_cond": 41574.39260080568,
+  "target_cond": 1000.0,
+  "conditioning_factor_needed": 41.6,
+  "excitation_factor_needed": 6.4,
+  "excitable_joints": [
+   2,
+   3,
+   4,
+   6
+  ],
+  "current_joint_range_rad": [
+   0.2834,
+   0.4975,
+   0.6187,
+   0.5289,
+   0.0789,
+   0.2751
+  ],
+  "required_joint_range_rad": [
+   6.2832,
+   6.2832,
+   6.2832,
+   6.2832,
+   3.2801,
+   6.2832
+  ],
+  "required_range_capped_at_full_turn": true,
+  "joints_barely_moving": 1,
+  "joints_that_cannot_excite_gravity_at_all": [
+   0,
+   4
+  ],
+  "reading": "the recorded motion does not excite the gravity direction: mass and sensor bias cannot be separated from this data"
+ }
+}

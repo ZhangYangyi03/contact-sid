@@ -1,0 +1,794 @@
+{
+ "data": [
+  {
+   "episode": 0,
+   "frames": 600,
+   "seconds": 19.97,
+   "dt_median_s": 0.03333,
+   "force_N": {
+    "median": 16.3,
+    "p90": 21.28,
+    "max": 30.15
+   },
+   "joint_range_rad": [
+    0.1247,
+    0.3115,
+    0.3243,
+    0.5287,
+    0.0724,
+    0.1124
+   ]
+  },
+  {
+   "episode": 1,
+   "frames": 601,
+   "seconds": 20.0,
+   "dt_median_s": 0.03333,
+   "force_N": {
+    "median": 19.32,
+    "p90": 75.05,
+    "max": 138.08
+   },
+   "joint_range_rad": [
+    0.1142,
+    0.3133,
+    0.3654,
+    0.3058,
+    0.0762,
+    0.1052
+   ]
+  },
+  {
+   "episode": 2,
+   "frames": 600,
+   "seconds": 19.97,
+   "dt_median_s": 0.03333,
+   "force_N": {
+    "median": 35.28,
+    "p90": 36.18,
+    "max": 58.36
+   },
+   "joint_range_rad": [
+    0.0479,
+    0.2717,
+    0.406,
+    0.1484,
+    0.0118,
+    0.0454
+   ]
+  },
+  {
+   "episode": 3,
+   "frames": 600,
+   "seconds": 19.97,
+   "dt_median_s": 0.03333,
+   "force_N": {
+    "median": 35.63,
+    "p90": 37.06,
+    "max": 38.57
+   },
+   "joint_range_rad": [
+    0.2834,
+    0.2657,
+    0.5451,
+    0.3723,
+    0.0691,
+    0.275
+   ]
+  }
+ ],
+ "split": {
+  "held_out": "a whole episode is held out for the generalisation check; the cross-regime table uses regime masks within all episodes and is labelled as such"
+ },
+ "identifiability": {
+  "per_episode": [
+   {
+    "episode": 0,
+    "cond": 296857.9,
+    "gravity_spread_frac": 0.04893,
+    "identifiable": false,
+    "scalar_mass_kg": -3.465,
+    "scalar_mass_stderr_kg": 2.478,
+    "scalar_mass_t": -1.4,
+    "scalar_mass_identified": false,
+    "unrestricted_mass_kg": 3795.618,
+    "tcp_travel_m": [
+     0.0565,
+     0.0632,
+     0.195
+    ],
+    "tcp_radius_min_m": 0.5297,
+    "tcp_radius_max_m": 0.6245,
+    "within_kinematic_reach": true,
+    "within_working_envelope": true
+   },
+   {
+    "episode": 1,
+    "cond": 171875.0,
+    "gravity_spread_frac": 0.06197,
+    "identifiable": false,
+    "scalar_mass_kg": 43.043,
+    "scalar_mass_stderr_kg": 3.07,
+    "scalar_mass_t": 14.02,
+    "scalar_mass_identified": true,
+    "unrestricted_mass_kg": 7934.389,
+    "tcp_travel_m": [
+     0.1293,
+     0.0526,
+     0.1175
+    ],
+    "tcp_radius_min_m": 0.5894,
+    "tcp_radius_max_m": 0.7008,
+    "within_kinematic_reach": true,
+    "within_working_envelope": true
+   },
+   {
+    "episode": 2,
+    "cond": 1263761.0,
+    "gravity_spread_frac": 0.01559,
+    "identifiable": false,
+    "scalar_mass_kg": 257.601,
+    "scalar_mass_stderr_kg": 10.583,
+    "scalar_mass_t": 24.34,
+    "scalar_mass_identified": true,
+    "unrestricted_mass_kg": 41348.911,
+    "tcp_travel_m": [
+     0.1317,
+     0.0119,
+     0.0452
+    ],
+    "tcp_radius_min_m": 0.5749,
+    "tcp_radius_max_m": 0.7032,
+    "within_kinematic_reach": true,
+    "within_working_envelope": true
+   },
+   {
+    "episode": 3,
+    "cond": 94713.3,
+    "gravity_spread_frac": 0.04136,
+    "identifiable": false,
+    "scalar_mass_kg": 0.88,
+    "scalar_mass_stderr_kg": 0.881,
+    "scalar_mass_t": 1.0,
+    "scalar_mass_identified": false,
+    "unrestricted_mass_kg": 362.793,
+    "tcp_travel_m": [
+     0.1312,
+     0.1301,
+     0.1169
+    ],
+    "tcp_radius_min_m": 0.5549,
+    "tcp_radius_max_m": 0.7215,
+    "within_kinematic_reach": true,
+    "within_working_envelope": true
+   }
+  ],
+  "pooled": {
+   "n_samples": 2401,
+   "cond": 41574.3926,
+   "sigma_min": 0.0116,
+   "sigma_max": 483.0291,
+   "gravity_spread_ms2": [
+    0.5336,
+    0.7312,
+    0.119
+   ],
+   "gravity_spread_frac": 0.0745,
+   "identifiable": false
+  },
+  "pooled_scalar_mass": {
+   "mass_kg": 1.068,
+   "stderr_kg": 1.366,
+   "ci95_kg": [
+    -1.609,
+    3.744
+   ],
+   "t_stat": 0.78,
+   "identified": false,
+   "dof": 7199,
+   "gravity_excitation_sum_sq": 146.7553,
+   "r2_force": 0.0001,
+   "reason": "the mass is not distinguishable from zero: the tool's mass, the sensor bias and the contact offset are one lump in this recording"
+  },
+  "inert_joints": {
+   "structural": [
+    0
+   ],
+   "situational": [
+    4
+   ],
+   "n_configurations_checked": 31
+  },
+  "excitation_required": {
+   "current_cond": 41574.39260080568,
+   "target_cond": 1000.0,
+   "conditioning_factor_needed": 41.6,
+   "excitation_factor_needed": 6.4,
+   "current_joint_range_rad": [
+    0.2834,
+    0.4975,
+    0.6187,
+    0.5289,
+    0.0789,
+    0.2751
+   ],
+   "required_joint_range_rad": [
+    6.2832,
+    6.2832,
+    6.2832,
+    6.2832,
+    3.2801,
+    6.2832
+   ],
+   "required_range_capped_at_full_turn": true,
+   "joints_barely_moving": 1,
+   "joints_that_cannot_excite_gravity_at_all": [
+    0
+   ],
+   "excitable_joints": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "reading": "the recorded motion does not excite the gravity direction: mass and sensor bias cannot be separated from this data"
+  }
+ },
+ "pooled_cross_table": {
+  "smooth": {
+   "library": "smooth",
+   "lambda": 0.05,
+   "n_terms": 97,
+   "regimes": {
+    "free_max_N": 30.705,
+    "contact_min_N": 37.164,
+    "n_free": 1201,
+    "n_contact": 241
+   },
+   "fits": {
+    "train_free__test_free": {
+     "nonzero": 582,
+     "r2_mean": 0.5464,
+     "r2_per_axis": [
+      0.6368,
+      0.489,
+      0.8506,
+      0.386,
+      0.5659,
+      0.3501
+     ]
+    },
+    "train_free__test_contact": {
+     "nonzero": 582,
+     "r2_mean": -1230.4984,
+     "r2_per_axis": [
+      -251.6989,
+      -23.9287,
+      -98.2724,
+      -400.1309,
+      -6363.8265,
+      -245.1332
+     ]
+    },
+    "train_contact__test_free": {
+     "nonzero": 582,
+     "r2_mean": -838.5597,
+     "r2_per_axis": [
+      -87.1776,
+      -24.4981,
+      -486.9046,
+      -512.0128,
+      -1921.6518,
+      -1999.1136
+     ]
+    },
+    "train_contact__test_contact": {
+     "nonzero": 582,
+     "r2_mean": 0.859,
+     "r2_per_axis": [
+      0.9803,
+      0.9902,
+      0.977,
+      0.896,
+      0.6344,
+      0.6764
+     ]
+    }
+   },
+   "group_mass_all_data": {
+    "const": 567092.73713,
+    "q": 3133294.77433,
+    "dq": 510.19286,
+    "ddq": 555.30572,
+    "q*q": 1504253.17187,
+    "dq*dq": 11889.22491,
+    "q*dq": 2532277.17303
+   }
+  },
+  "nonsmooth": {
+   "library": "nonsmooth",
+   "lambda": 0.05,
+   "n_terms": 116,
+   "regimes": {
+    "free_max_N": 30.705,
+    "contact_min_N": 37.164,
+    "n_free": 1201,
+    "n_contact": 241
+   },
+   "fits": {
+    "train_free__test_free": {
+     "nonzero": 685,
+     "r2_mean": 0.5651,
+     "r2_per_axis": [
+      0.6523,
+      0.5188,
+      0.86,
+      0.4164,
+      0.5856,
+      0.3575
+     ]
+    },
+    "train_free__test_contact": {
+     "nonzero": 685,
+     "r2_mean": -1290.8372,
+     "r2_per_axis": [
+      -212.413,
+      -32.7252,
+      -168.3796,
+      -543.0492,
+      -6605.6561,
+      -182.8001
+     ]
+    },
+    "train_contact__test_free": {
+     "nonzero": 689,
+     "r2_mean": -1210.4926,
+     "r2_per_axis": [
+      -405.9787,
+      -485.7113,
+      -406.645,
+      -973.5163,
+      -2485.2812,
+      -2505.8232
+     ]
+    },
+    "train_contact__test_contact": {
+     "nonzero": 689,
+     "r2_mean": 0.8673,
+     "r2_per_axis": [
+      0.9814,
+      0.9915,
+      0.983,
+      0.9062,
+      0.6547,
+      0.6871
+     ]
+    }
+   },
+   "group_mass_all_data": {
+    "const": 772461.59294,
+    "q": 3791234.34641,
+    "dq": 330.2999,
+    "ddq": 438.91562,
+    "q*q": 2112745.97935,
+    "dq*dq": 10216.91588,
+    "q*dq": 3503280.60177,
+    "sign(dq)": 32.02064,
+    "dq*|dq|": 351.643,
+    "contact": 4.49533
+   }
+  },
+  "note": "pooled free/contact split -- REPORTED WITH A CONFOUND, see within_episode: the episodes have different force baselines, so this split partly separates episodes rather than contact"
+ },
+ "within_episode": {
+  "smooth": [
+   {
+    "episode": 0,
+    "library": "smooth",
+    "contact_threshold_N": 21.28,
+    "n_train_free": 540,
+    "n_held_out_contact": 60,
+    "nonzero": 582,
+    "r2_train_free": 0.7341,
+    "r2_held_out_contact": 0.5251,
+    "r2_held_out_contact_per_axis": [
+     0.645,
+     0.57,
+     0.657,
+     0.59,
+     0.639,
+     0.05
+    ]
+   },
+   {
+    "episode": 1,
+    "library": "smooth",
+    "contact_threshold_N": 75.05,
+    "n_train_free": 540,
+    "n_held_out_contact": 61,
+    "nonzero": 582,
+    "r2_train_free": 0.7301,
+    "r2_held_out_contact": -4.7509,
+    "r2_held_out_contact_per_axis": [
+     -6.54,
+     -3.788,
+     0.937,
+     -1.504,
+     -3.912,
+     -13.698
+    ]
+   },
+   {
+    "episode": 2,
+    "library": "smooth",
+    "contact_threshold_N": 36.18,
+    "n_train_free": 540,
+    "n_held_out_contact": 60,
+    "nonzero": 573,
+    "r2_train_free": 0.9751,
+    "r2_held_out_contact": 0.4761,
+    "r2_held_out_contact_per_axis": [
+     -0.505,
+     0.784,
+     0.669,
+     0.885,
+     0.103,
+     0.92
+    ]
+   },
+   {
+    "episode": 3,
+    "library": "smooth",
+    "contact_threshold_N": 37.06,
+    "n_train_free": 540,
+    "n_held_out_contact": 60,
+    "nonzero": 582,
+    "r2_train_free": 0.5304,
+    "r2_held_out_contact": -0.41,
+    "r2_held_out_contact_per_axis": [
+     -0.475,
+     -1.727,
+     0.637,
+     -0.231,
+     -1.175,
+     0.511
+    ]
+   }
+  ],
+  "nonsmooth": [
+   {
+    "episode": 0,
+    "library": "nonsmooth",
+    "contact_threshold_N": 21.28,
+    "n_train_free": 540,
+    "n_held_out_contact": 60,
+    "nonzero": 680,
+    "r2_train_free": 0.7516,
+    "r2_held_out_contact": 0.496,
+    "r2_held_out_contact_per_axis": [
+     0.62,
+     0.594,
+     0.645,
+     0.616,
+     0.633,
+     -0.132
+    ]
+   },
+   {
+    "episode": 1,
+    "library": "nonsmooth",
+    "contact_threshold_N": 75.05,
+    "n_train_free": 540,
+    "n_held_out_contact": 61,
+    "nonzero": 687,
+    "r2_train_free": 0.7421,
+    "r2_held_out_contact": -20.6238,
+    "r2_held_out_contact_per_axis": [
+     -5.382,
+     -13.117,
+     -1.243,
+     -92.774,
+     -2.252,
+     -8.975
+    ]
+   },
+   {
+    "episode": 2,
+    "library": "nonsmooth",
+    "contact_threshold_N": 36.18,
+    "n_train_free": 540,
+    "n_held_out_contact": 60,
+    "nonzero": 618,
+    "r2_train_free": 0.9817,
+    "r2_held_out_contact": 0.224,
+    "r2_held_out_contact_per_axis": [
+     -0.309,
+     0.797,
+     0.146,
+     0.858,
+     -1.003,
+     0.855
+    ]
+   },
+   {
+    "episode": 3,
+    "library": "nonsmooth",
+    "contact_threshold_N": 37.06,
+    "n_train_free": 540,
+    "n_held_out_contact": 60,
+    "nonzero": 650,
+    "r2_train_free": 0.5575,
+    "r2_held_out_contact": -0.4196,
+    "r2_held_out_contact_per_axis": [
+     -0.603,
+     -1.76,
+     0.665,
+     -0.309,
+     -1.009,
+     0.499
+    ]
+   }
+  ]
+ },
+ "leave_one_episode_out": {
+  "smooth": [
+   {
+    "held_out_episode": 0,
+    "library": "smooth",
+    "n_train": 1801,
+    "n_test": 600,
+    "r2_mean": -313.6182,
+    "r2_per_axis": [
+     -824.451,
+     -704.863,
+     -284.061,
+     -61.142,
+     -3.069,
+     -4.123
+    ]
+   },
+   {
+    "held_out_episode": 1,
+    "library": "smooth",
+    "n_train": 1800,
+    "n_test": 601,
+    "r2_mean": -215.7781,
+    "r2_per_axis": [
+     -123.81,
+     -146.009,
+     -17.194,
+     -313.232,
+     -587.431,
+     -106.992
+    ]
+   },
+   {
+    "held_out_episode": 2,
+    "library": "smooth",
+    "n_train": 1801,
+    "n_test": 600,
+    "r2_mean": -31.9374,
+    "r2_per_axis": [
+     -74.704,
+     -2.084,
+     -17.188,
+     -21.994,
+     -65.919,
+     -9.735
+    ]
+   },
+   {
+    "held_out_episode": 3,
+    "library": "smooth",
+    "n_train": 1801,
+    "n_test": 600,
+    "r2_mean": -4043642.6016,
+    "r2_per_axis": [
+     -325741.916,
+     -410626.033,
+     -47250.759,
+     -12323795.937,
+     -10535847.02,
+     -618593.944
+    ]
+   }
+  ],
+  "nonsmooth": [
+   {
+    "held_out_episode": 0,
+    "library": "nonsmooth",
+    "n_train": 1801,
+    "n_test": 600,
+    "r2_mean": -162.8802,
+    "r2_per_axis": [
+     -396.742,
+     -222.206,
+     -293.96,
+     -34.933,
+     -23.757,
+     -5.682
+    ]
+   },
+   {
+    "held_out_episode": 1,
+    "library": "nonsmooth",
+    "n_train": 1800,
+    "n_test": 601,
+    "r2_mean": -198.9279,
+    "r2_per_axis": [
+     -124.224,
+     -59.545,
+     -27.835,
+     -422.06,
+     -465.049,
+     -94.855
+    ]
+   },
+   {
+    "held_out_episode": 2,
+    "library": "nonsmooth",
+    "n_train": 1801,
+    "n_test": 600,
+    "r2_mean": -25.5616,
+    "r2_per_axis": [
+     -57.855,
+     -3.29,
+     -10.204,
+     -10.954,
+     -56.393,
+     -14.674
+    ]
+   },
+   {
+    "held_out_episode": 3,
+    "library": "nonsmooth",
+    "n_train": 1801,
+    "n_test": 600,
+    "r2_mean": -5239647.5884,
+    "r2_per_axis": [
+     -250581.409,
+     -377406.542,
+     -5516.029,
+     -17795637.211,
+     -12484376.762,
+     -524367.577
+    ]
+   }
+  ]
+ },
+ "library_comparison": {
+  "smooth": [
+   {
+    "episode": 0,
+    "n_terms": 97,
+    "r2_train_free": 0.7341,
+    "r2_held_out_contact": 0.5251,
+    "r2_axial_force": 0.6567
+   },
+   {
+    "episode": 1,
+    "n_terms": 97,
+    "r2_train_free": 0.7301,
+    "r2_held_out_contact": -4.7509,
+    "r2_axial_force": 0.9372
+   },
+   {
+    "episode": 2,
+    "n_terms": 97,
+    "r2_train_free": 0.9751,
+    "r2_held_out_contact": 0.4761,
+    "r2_axial_force": 0.6692
+   },
+   {
+    "episode": 3,
+    "n_terms": 97,
+    "r2_train_free": 0.5304,
+    "r2_held_out_contact": -0.41,
+    "r2_axial_force": 0.6368
+   }
+  ],
+  "nonsmooth": [
+   {
+    "episode": 0,
+    "n_terms": 116,
+    "r2_train_free": 0.7516,
+    "r2_held_out_contact": 0.496,
+    "r2_axial_force": 0.6449
+   },
+   {
+    "episode": 1,
+    "n_terms": 116,
+    "r2_train_free": 0.7421,
+    "r2_held_out_contact": -20.6238,
+    "r2_axial_force": -1.2435
+   },
+   {
+    "episode": 2,
+    "n_terms": 116,
+    "r2_train_free": 0.9817,
+    "r2_held_out_contact": 0.224,
+    "r2_axial_force": 0.146
+   },
+   {
+    "episode": 3,
+    "n_terms": 116,
+    "r2_train_free": 0.5575,
+    "r2_held_out_contact": -0.4196,
+    "r2_axial_force": 0.6651
+   }
+  ],
+  "history": [
+   {
+    "episode": 0,
+    "n_terms": 102,
+    "r2_train_free": 0.7407,
+    "r2_held_out_contact": 0.5567,
+    "r2_axial_force": 0.6669
+   },
+   {
+    "episode": 1,
+    "n_terms": 102,
+    "r2_train_free": 0.7381,
+    "r2_held_out_contact": -4.4726,
+    "r2_axial_force": 0.9412
+   },
+   {
+    "episode": 2,
+    "n_terms": 102,
+    "r2_train_free": 0.9805,
+    "r2_held_out_contact": 0.5136,
+    "r2_axial_force": 0.9199
+   },
+   {
+    "episode": 3,
+    "n_terms": 102,
+    "r2_train_free": 0.7294,
+    "r2_held_out_contact": -0.2197,
+    "r2_axial_force": 0.8986
+   }
+  ]
+ },
+ "findings": {
+  "library_shape_does_not_rescue_contact": "adding sign(dq), |dq|sign(dq) and a contact indicator -- the terms that make friction expressible at all -- does not improve the held-out contact fit. Friction is not the whole of what the smooth library is missing.",
+  "the_missing_variable_is_not_in_the_kinematics": "the same smooth library reaches R2 up to 0.93 on the contact frames' axial force once the force channel's own recent history is added to the input list. The gap is a missing input, not a wrong functional form: no estimator over motion alone closes it, because a contact normal force is not a function of the robot's pose and joint velocities.",
+  "practice_teaches_the_policy_but_not_the_parameters": "an operation teaches what to do on this task and this kinesthetic regime. The tool's mass and the sensor's bias are still not separable from it: the recording's conditioning is ~1e4. Realising the episodes, slowing the motion or thickening the recording does not change that -- only kinematic excitation does, and the required amount is reported by excitation_required."
+ },
+ "smoothing_sensitivity": [
+  {
+   "window": 5,
+   "r2_free": 0.524,
+   "r2_contact": -1340.2644
+  },
+  {
+   "window": 7,
+   "r2_free": 0.5367,
+   "r2_contact": -907.0468
+  },
+  {
+   "window": 9,
+   "r2_free": 0.5433,
+   "r2_contact": -906.976
+  },
+  {
+   "window": 11,
+   "r2_free": 0.5464,
+   "r2_contact": -1230.4984
+  },
+  {
+   "window": 15,
+   "r2_free": 0.5528,
+   "r2_contact": -1275.0997
+  },
+  {
+   "window": 21,
+   "r2_free": 0.5602,
+   "r2_contact": -1279.2928
+  },
+  {
+   "window": 31,
+   "r2_free": 0.5804,
+   "r2_contact": -10264.6179
+  }
+ ]
+}
