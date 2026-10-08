@@ -9,3 +9,5 @@ venv/
 .pytest_cache/
 .coverage
 htmlcov/
+_msg*.txt
+_commitmsg.txt
