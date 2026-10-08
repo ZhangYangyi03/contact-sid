@@ -1,0 +1,37 @@
+[
+ {
+  "window": 5,
+  "r2_free": 0.524,
+  "r2_contact": -1340.2644
+ },
+ {
+  "window": 7,
+  "r2_free": 0.5367,
+  "r2_contact": -907.0468
+ },
+ {
+  "window": 9,
+  "r2_free": 0.5433,
+  "r2_contact": -906.976
+ },
+ {
+  "window": 11,
+  "r2_free": 0.5464,
+  "r2_contact": -1230.4984
+ },
+ {
+  "window": 15,
+  "r2_free": 0.5528,
+  "r2_contact": -1275.0997
+ },
+ {
+  "window": 21,
+  "r2_free": 0.5602,
+  "r2_contact": -1279.2928
+ },
+ {
+  "window": 31,
+  "r2_free": 0.5804,
+  "r2_contact": -10264.6179
+ }
+]

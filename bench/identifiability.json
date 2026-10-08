@@ -110,10 +110,11 @@
  },
  "inert_joints": {
   "structural": [
-   0,
+   0
+  ],
+  "situational": [
    4
   ],
-  "situational": [],
   "n_configurations_checked": 31
  },
  "excitation_required": {
@@ -121,12 +122,6 @@
   "target_cond": 1000.0,
   "conditioning_factor_needed": 41.6,
   "excitation_factor_needed": 6.4,
-  "excitable_joints": [
-   2,
-   3,
-   4,
-   6
-  ],
   "current_joint_range_rad": [
    0.2834,
    0.4975,
@@ -146,8 +141,14 @@
   "required_range_capped_at_full_turn": true,
   "joints_barely_moving": 1,
   "joints_that_cannot_excite_gravity_at_all": [
-   0,
-   4
+   0
+  ],
+  "excitable_joints": [
+   2,
+   3,
+   4,
+   5,
+   6
   ],
   "reading": "the recorded motion does not excite the gravity direction: mass and sensor bias cannot be separated from this data"
  }

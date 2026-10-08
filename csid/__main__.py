@@ -20,11 +20,32 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(HERE)
 
 
+def _finite(obj):
+    """Replace non-finite floats with strings before writing.
+
+    `json.dump` writes inf and nan as the bare tokens Infinity and NaN, which the JSON
+    standard does not define and other parsers need not accept; Python's own reader is
+    lenient, which is exactly why this is easy to miss. `allow_nan=False` turns a
+    recurrence into an error instead of a file nobody else can read.
+    """
+    if isinstance(obj, float):
+        if obj != obj:
+            return "nan"
+        if obj in (float("inf"), float("-inf")):
+            return "inf" if obj > 0 else "-inf"
+        return obj
+    if isinstance(obj, dict):
+        return {k: _finite(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_finite(v) for v in obj]
+    return obj
+
+
 def _dump(obj, name):
     os.makedirs(os.path.join(BASE, "bench"), exist_ok=True)
     p = os.path.join(BASE, "bench", name)
     with open(p, "w", encoding="utf-8", newline="\n") as f:
-        json.dump(obj, f, indent=1)
+        json.dump(_finite(obj), f, indent=1, allow_nan=False)
     return p
 
 

@@ -1,0 +1,19 @@
+Fix the degenerate-recording path, and publish the identifiability result in its honest form
+
+CI on Python 3.10 found a nan: a recording whose gravity column is exactly constant has
+sigma_min of exactly zero, so the conditioning ratio is infinite and a zero joint range
+times an infinite factor is nan. The advice for such a joint is now a full turn, and the
+ratio is reported as null rather than as Infinity -- json.dump writes the bare token
+Infinity, which the JSON standard does not define, so _finite() now converts non-finite
+floats and the results file is written with allow_nan=False.
+
+The degeneracy test is also physical now rather than numerical. A numerical threshold on
+the condition number was wrong in the other direction: a recording with a third of a
+radian of motion is under-excited but not degenerate, and refusing to report its ratio
+would have hidden a real measurement. 'Does the gravity direction move at all' is asked
+directly (gravity_moves) and is the same quantity that fit_mass_scalar uses as its
+denominator, so the two cannot disagree.
+
+48 tests, including two regression tests written for the two failures CI and this host
+each produced: one that a frozen recording returns a full-turn recommendation instead of
+nan, and one that a barely-moving recording returns a ratio instead of a refusal.

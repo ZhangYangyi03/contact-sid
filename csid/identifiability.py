@@ -18,13 +18,13 @@ nearly parallel and the solve splits one effect between two names arbitrarily.
 Three functions answer the question at three strengths, and all three are published
 because they disagree in an informative way:
 
-  condition()          is the design badly conditioned? (a yes/no about the matrix)
-  fit_mass_scalar()    what mass does the recording support, with an error bar?
-                       (a number and an interval, and on this data the interval
-                       contains zero -- which is the honest form of "not
-                       identifiable" and the one that survives a referee)
+  condition()           is the design badly conditioned? (a yes/no about the matrix)
+  fit_mass_scalar()     what mass does the recording support, with an error bar?
+                        (a number and an interval, and on this data the interval
+                        contains zero -- which is the honest form of "not
+                        identifiable" and the one that survives a referee)
   excitation_required() how much more motion would fix it? (advice, in units of
-                       joint range, and in the joint numbers where motion helps)
+                        joint range, and in the joint numbers where motion helps)
 
 The practical consequence is the interesting part: "collect more data" becomes a
 number a lab can budget for, and the answer to "how many operations is enough" is
@@ -76,31 +76,52 @@ def design(qs):
 
 
 def condition(qs) -> dict:
-    """How badly the mass/bias split is conditioned, and how much reorientation it
-    would take to fix it."""
+    """How badly the mass/bias split is conditioned, and how much the gravity direction
+    moves across the recording."""
     import numpy as np
 
     A = design(qs)
     s = np.linalg.svd(A, compute_uv=False)
-    smin, smax = float(s[-1]), float(s[0])
+    smax, smin = float(s[0]), float(s[-1])
     Rg = gravity_columns(qs)
     spread = [float(v) for v in (Rg.max(0) - Rg.min(0))]
+    # The criterion is the one `excitation_required` aims at, so "is it identifiable"
+    # and "how much more motion would make it so" cannot disagree. The threshold is on
+    # the condition number rather than on sigma_min because sigma_min is not scale
+    # invariant: the gravity column carries ~9.8 and the bias column carries 1, so
+    # sigma_min alone moves when the units do.
+    # The degeneracy test is physical rather than numerical: `gravity_moves` asks whether
+    # the gravity direction varies across the recording *at all*. Testing the condition
+    # number instead is a trap, because a design that is under-excited but not constant
+    # -- one joint swinging through a third of a radian -- already has a ratio of 1e16,
+    # and reporting that as "degenerate" would hide a real measurement behind a None.
+    cond = None if (not gravity_moves(qs) or smin <= 0) else smax / smin
     return {
         "n_samples": int(A.shape[0]),
-        "cond": smax / max(smin, 1e-300),
+        "cond": cond,
         "sigma_min": smin,
         "sigma_max": smax,
         # how much the gravity direction actually changed, against the 9.81 that a
         # full reorientation would give
         "gravity_spread_ms2": [round(v, 4) for v in spread],
         "gravity_spread_frac": round(max(spread) / 9.81, 5),
-        # The criterion is the one `excitation_required` aims at, so "is it
-        # identifiable" and "how much more motion would make it so" cannot disagree.
-        # The threshold is on the condition number rather than on sigma_min because
-        # sigma_min is not scale invariant: the gravity column carries ~9.8 and the
-        # bias column carries 1, so sigma_min alone moves when the units do.
-        "identifiable": bool(smax / max(smin, 1e-300) < IDENTIFIABLE_COND),
+        "identifiable": bool(cond is not None and cond < IDENTIFIABLE_COND),
     }
+
+
+def gravity_moves(qs, tol: float = 1e-12) -> bool:
+    """Does the gravity direction as the tool sees it vary across this recording?
+
+    This is the physical precondition for the whole module, and it is cheap to ask
+    directly instead of inferring it from a singular value. `fit_mass_scalar` uses the
+    same quantity as the denominator of its estimate, so "the gravity direction moves"
+    and "a mass was estimated" are the same question asked twice.
+    """
+    import numpy as np
+
+    G = np.asarray(gravity_columns(qs), dtype=float)
+    Gc = G - G.mean(0)
+    return bool(float((Gc ** 2).sum()) > tol)
 
 
 def fit_mass_bias(qs, force):
@@ -281,13 +302,18 @@ def excitation_required(qs, target_cond: float = 1e3) -> dict:
     because it means widening a joint that is inert does not help at all -- widening
     joint 1 of a UR5 changes nothing, and this function correctly refuses to move.
 
-    Two corrections to the naive version:
+    Three cases are handled explicitly rather than left to arithmetic:
 
-      * the required range is capped at a full joint revolution, because a joint cannot
-        rotate more than that and reporting 1e29 radians would be arithmetic rather than
-        advice;
-      * inert joints are excluded by name, so the advice points at the joints where
-        motion would actually help.
+      * a joint whose recorded range is zero has no range to scale, so multiplying it by
+        any factor leaves zero and the advice is the cap. (The first version returned nan
+        here, because a zero range times an infinite factor is nan. CI on Python 3.10
+        found it and this machine did not, which is the argument for running CI on more
+        than one interpreter.)
+      * a recording whose gravity column is exactly constant has sigma_min of exactly
+        zero and an infinite ratio; the factor is reported as None rather than as inf,
+        so that `json` can write the result without emitting the non-standard token.
+      * the required range is capped at one full joint revolution, because a joint cannot
+        rotate further and reporting 1e29 radians would be arithmetic rather than advice.
 
     Whichever number is quoted, the reading is the same: this is a statement that the
     experiment must be changed, not that a better estimator is needed.
@@ -296,19 +322,32 @@ def excitation_required(qs, target_cond: float = 1e3) -> dict:
 
     A = design(qs)
     s = np.linalg.svd(A, compute_uv=False)
-    cur = float(s[0] / s[-1])
-    factor = cur / target_cond
+    smax, smin = float(s[0]), float(s[-1])
+    # Same physical test as `condition()`. A design that is under-excited but not
+    # constant keeps a finite ratio, however large; only a recording in which the gravity
+    # direction does not move at all has no ratio to quote.
+    cur = None if (not gravity_moves(qs) or smin <= 0) else smax / smin
+    factor = (cur / target_cond) if cur is not None else None
     Q = np.asarray(qs, dtype=float)
     rng = np.ptp(Q, axis=0)
     max_range = 2.0 * math.pi
-    req = [min(float(v * max(1.0, factor)), max_range) for v in rng]
-    capped = any(float(v * max(1.0, factor)) > max_range for v in rng)
+
+    def required(v: float) -> float:
+        """The advice for one joint. A joint that never moved is told to use its whole
+        range, because there is no smaller amount of motion that would help."""
+        if v <= 0.0 or factor is None or not math.isfinite(factor):
+            return max_range
+        return min(float(v) * max(1.0, factor), max_range)
+
+    req = [required(float(v)) for v in rng]
+    capped = factor is None or any(float(v) * max(1.0, factor) > max_range for v in rng)
     still = int((rng < 0.1).sum())
     inert = inert_joints(qs)
     return {
         "current_cond": cur, "target_cond": target_cond,
-        "conditioning_factor_needed": round(factor, 1),
-        "excitation_factor_needed": round(float(factor) ** 0.5, 1),
+        "conditioning_factor_needed": round(factor, 1) if factor is not None else None,
+        "excitation_factor_needed": (round(float(factor) ** 0.5, 1)
+                                     if factor is not None else None),
         "current_joint_range_rad": [round(float(v), 4) for v in rng],
         "required_joint_range_rad": [round(v, 4) for v in req],
         "required_range_capped_at_full_turn": bool(capped),

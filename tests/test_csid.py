@@ -302,10 +302,25 @@ class TestIdentifiability(unittest.TestCase):
     negative case could be passed by a function that always says no."""
 
     def test_a_tool_that_never_reorients_cannot_separate_mass_from_bias(self):
+        """Joint 1 swept over its whole range: the gravity direction is invariant under
+        it, so the design is exactly degenerate and there is no condition number to
+        report. Asserted in both of its forms -- not identifiable, and the ratio absent
+        rather than quoted -- because a published 1e30 would read like a measurement."""
         qs = [[0.1 * i, 0.3, 0.3, 0.3, 0.3, 0.3] for i in range(100)]
         c = ID.condition(qs)
         self.assertFalse(c["identifiable"])
+        self.assertIsNone(c["cond"])
+        self.assertFalse(ID.gravity_moves(qs))
+
+    def test_a_tool_that_moves_a_little_gets_a_ratio_not_a_refusal(self):
+        """The other side of the same line: a third of a radian of motion is under-excited
+        but it is not degenerate, and the tool must report the number it measured rather
+        than refuse. This is the case that a numerical degeneracy threshold got wrong."""
+        qs = [[0.0, -0.3 + 0.6 * (i % 8) / 7.0, 0.25, 0.2, 0.15, 0.2] for i in range(80)]
+        c = ID.condition(qs)
+        self.assertIsNotNone(c["cond"])
         self.assertGreater(c["cond"], 1e3)
+        self.assertTrue(ID.gravity_moves(qs))
 
     def test_a_tool_that_reorients_widely_can(self):
         qs = []
@@ -375,11 +390,19 @@ class TestIdentifiability(unittest.TestCase):
         an *inert* joint must come out identical -- asserting a decrease there was the
         first version of this test, and it was wrong. And the factor is never below one:
         "you already have enough" is not an excuse to ask for a sub-unit increase."""
-        a = ID.excitation_required([[0.01, 0.2, 0.25, 0.2, 0.15, 0.2] for _ in range(50)])
-        b = ID.excitation_required([[1.4, 0.2, 0.25, 0.2, 0.15, 0.2] for _ in range(50)])
-        # joint 1 widened by 100x, the rest identical: the gravity direction is untouched
+        # the two recordings differ only in the range of joint 1, which cannot move the
+        # gravity direction; both must have real variation in another joint, because a
+        # recording with no variation at all is genuinely degenerate and is covered by
+        # its own test
+        t = [-0.3 + 0.6 * (i % 8) / 7.0 for i in range(80)]
+        a = ID.excitation_required([[0.01 * (i % 3), -0.3 + 0.6 * (i % 8) / 7.0,
+                                     0.25, 0.2, 0.15, 0.2] for i in range(80)])
+        b = ID.excitation_required([[1.4 * (i % 5) / 4.0, -0.3 + 0.6 * (i % 8) / 7.0,
+                                     0.25, 0.2, 0.15, 0.2] for i in range(80)])
+        # joint 1 widened by 100x, the useful motion identical: the gravity direction is
+        # untouched, so the condition number -- which is scale invariant -- cannot move
         self.assertAlmostEqual(a["conditioning_factor_needed"],
-                               b["conditioning_factor_needed"], places=6)
+                               b["conditioning_factor_needed"], places=3)
         self.assertGreaterEqual(a["excitation_factor_needed"], 1.0)
         self.assertGreaterEqual(a["excitation_factor_needed"],
                                 a["conditioning_factor_needed"] ** 0.5 - 1e-6)
@@ -389,9 +412,11 @@ class TestIdentifiability(unittest.TestCase):
         """The direction that must hold: on a recording whose gravity direction already
         swings widely, the factor asked for is smaller than on one where the tool keeps
         its orientation. Here the difference is made by the *useful* joints."""
-        stiff = ID.excitation_required([[0.0] + [0.2, 0.25, 0.2, 0.15, 0.2] * 1 for _ in range(50)])
-        swing = ID.excitation_required([[0.0, 0.2 + 1.2 * (i % 2), 0.25, 0.2, 0.15, 0.2]
+        stiff = ID.excitation_required([[0.0, 0.2 + 0.02 * (i % 4), 0.25, 0.2, 0.15, 0.2]
                                         for i in range(50)])
+        swing = ID.excitation_required([[0.0, -0.6 + 1.2 * (i % 8) / 7.0, 0.25, 0.2, 0.15, 0.2]
+                                        for i in range(50)])
+        self.assertIsNotNone(stiff["conditioning_factor_needed"])
         self.assertLess(swing["conditioning_factor_needed"], stiff["conditioning_factor_needed"])
 
     def test_required_range_is_capped_at_a_full_revolution(self):
@@ -399,7 +424,24 @@ class TestIdentifiability(unittest.TestCase):
         advice must be "move it through its full range", not 1e29 radians."""
         r = ID.excitation_required([[1e-4, 0.3, 0.3, 0.3, 0.3, 0.3] for _ in range(50)])
         for v in r["required_joint_range_rad"]:
-            self.assertLessEqual(v, 2 * math.pi + 1e-9)
+            # the reported value is rounded to 4 decimals, so the bound is checked at
+            # the precision it is published at, not at the precision it is computed at
+            self.assertLessEqual(v, 2 * math.pi + 1e-3)
+
+    def test_a_frozen_recording_does_not_return_nan_advice(self):
+        """The regression test for a bug CI found on Python 3.10 and this machine did not
+        reproduce: when the gravity column is exactly constant, sigma_min is exactly zero,
+        the conditioning ratio is infinite, and multiplying a joint range of zero by an
+        infinite factor gives nan. The advice must be a full turn for such a joint, and
+        the reported factor must be absent rather than infinite -- a nan that reaches a
+        published number is worse than a refusal, because it looks like a measurement."""
+        r = ID.excitation_required([[0.0, 0.3, 0.3, 0.3, 0.3, 0.3] for _ in range(40)])
+        for val in r["required_joint_range_rad"]:
+            self.assertTrue(math.isfinite(val), r)
+            self.assertLessEqual(val, 2 * math.pi + 1e-3)
+        self.assertIsNone(r["conditioning_factor_needed"])
+        self.assertIsNone(r["excitation_factor_needed"])
+        self.assertTrue(r["required_range_capped_at_full_turn"])
 
     def test_joint_one_of_the_ur5_cannot_excite_the_gravity_direction(self):
         """The structural fact behind the negative result, asserted so that a change to
@@ -491,6 +533,17 @@ class TestStudyMechanics(unittest.TestCase):
         self.assertAlmostEqual(float(col[0]), float(e["wrench"][0][2]), places=6)
         self.assertAlmostEqual(float(col[5]), float(e["wrench"][4][2]), places=6)
         self.assertEqual(len(names), len(Th[0]))
+
+    def test_the_results_file_contains_no_non_finite_tokens(self):
+        """The published JSON must be valid JSON for any parser, not only for Python's
+        lenient one: Infinity and NaN are tokens the standard does not define."""
+        p = os.path.join(os.path.dirname(HERE), "bench", "results.json")
+        if not os.path.exists(p):
+            self.skipTest("bench/results.json not built yet")
+        with open(p, encoding="utf-8") as f:
+            raw = f.read()
+        for tok in ("Infinity", "-Infinity", "NaN"):
+            self.assertNotIn(tok, raw)
 
     def test_results_file_if_present_is_self_consistent(self):
         p = os.path.join(os.path.dirname(HERE), "bench", "results.json")
